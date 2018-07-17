@@ -23,7 +23,7 @@ var computerOption =
 var guessesSoFar = [];
 var correctGuesses = [];
 var guessesLeft = 9;
-var seconds = 60;
+var seconds = 6000;
 
 $("#timer").text(seconds);
 
@@ -47,7 +47,7 @@ function startTimer() {
   seconds = seconds - 1;
   $("#timer").text(seconds);
 
-  if (seconds <= 0) {
+  if (seconds <= 0 || guessesLeft == 0) {
     $("#mainBox").addClass("hide");
 
     clearInterval(timer);
@@ -86,6 +86,7 @@ function playGame(ev) {
 
 document.onkeyup = playGame;
 var disp = "";
+
 function display() {
   for (var h = 0; h < computerOption.length; h++) {
     if (correctGuesses.indexOf(computerOption[h]) != -1) {
@@ -93,7 +94,13 @@ function display() {
     } else {
       disp = disp + " _ ";
     }
+    var element = $("#wordToGuess").text(disp);
   }
+  $("#wordToGuess").push(element);
   return disp;
-  $("#wordToGuess").text(disp);
 }
+
+//if(ev.keyCode >=97 && ev.keyCode <=122) {
+//     $('#letters-guessed').append(userGuess + ", ");
+// }else{
+//     alert("Please enter a letter");
