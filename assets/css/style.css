@@ -25,7 +25,7 @@ body {
   text-align: center;
   margin: auto;
   padding-top: 2px;
-  opacity: 0.75;
+  opacity: 0.6;
   font-size: 18px;
   font-family: "Wendy One", sans-serif;
   border-color: yellowgreen;
@@ -62,6 +62,13 @@ body {
   border-color: yellowgreen;
   border-width: 10px;
   border-style: ridge;
+}
+
+#gifs-appear-here {
+  text-align: center;
+}
+#gifs-appear-here img {
+  max-width: 340px;
 }
 
 .hide {
