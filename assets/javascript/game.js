@@ -17,6 +17,7 @@ var spaceJamWords = [
   "assist",
   "backboard"
 ];
+var timerSet;
 var answerArray = [];
 var computerOption =
   spaceJamWords[Math.floor(Math.random() * spaceJamWords.length)];
@@ -48,30 +49,55 @@ function startTimer() {
   seconds = seconds - 1;
   $("#timer").text(seconds);
 
+  //this if statement is for when the player loses
   if (seconds <= 0 || guessesLeft == 0) {
     $("#mainBox").addClass("hide");
     $("#gifs-appear-here img")
-      .css("border", "0px solid yellowgreen")
+      .css("border", "0px solid red")
       .animate({
         borderWidth: "10px",
         borderColor: "#f37736"
       });
     // clearInterval(timer);
     $("#highScore").removeClass("hide");
+    $("#playagain").removeClass("hide");
     $("#score").removeClass("hide");
   }
 }
 
-$("#start-btn").on("click", function() {
+$(".start-btn").on("click", function() {
+  if (timerSet) clearInterval(timer);
+
   timer = setInterval(startTimer, 1000);
+  timerSet = true;
+
+  answerArray = [];
+  computerOption =
+    spaceJamWords[Math.floor(Math.random() * spaceJamWords.length)];
+  guessesSoFar = [];
+  correctGuesses = [];
+  guessesLeft = 9;
+  seconds = 6000;
+
   $("#startscreen").addClass("hide");
   $("#mainBox").removeClass("hide");
   $("#timer").removeClass("hide");
+  $("#start-btn").addClass("hide");
+  $("#playagain").addClass("hide");
+});
+
+$("#playagain").on("click", function() {
+  $("#startscreen").removeClass("hide");
+  $("#playagain").addClass("hide");
+  $("#highScore").addClass("hide");
+  $("#timer").addClass("hide");
+  $("#start-btn").removeClass("hide");
+  $("#gifs-appear-here").empty();
 });
 
 function playGame(ev) {
   var userGuess = ev.key;
-  alert(userGuess);
+  // alert(userGuess);
   if (
     computerOption.indexOf(userGuess) != -1 &&
     guessesSoFar.indexOf(userGuess) == -1

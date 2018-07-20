@@ -71,6 +71,14 @@ body {
   max-width: 340px;
 }
 
+#playagain {
+  margin: auto;
+}
+
+.start-btn {
+  margin: auto;
+}
+
 .hide {
   display: none;
 }
