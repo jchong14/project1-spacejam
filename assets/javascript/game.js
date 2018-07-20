@@ -17,6 +17,35 @@ var spaceJamWords = [
   "assist",
   "backboard"
 ];
+
+var letters = [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z"
+];
 var timerSet;
 var answerArray = [];
 var computerOption =
@@ -24,7 +53,7 @@ var computerOption =
 var guessesSoFar = [];
 var correctGuesses = [];
 var guessesLeft = 9;
-var seconds = 6000;
+var seconds = 6;
 
 $("#timer").text(seconds);
 
@@ -50,7 +79,7 @@ function startTimer() {
   $("#timer").text(seconds);
 
   //this if statement is for when the player loses
-  if (seconds <= 0 || guessesLeft == 0) {
+  if (seconds === 0 || guessesLeft === 0) {
     $("#mainBox").addClass("hide");
     $("#gifs-appear-here img")
       .css("border", "0px solid red")
@@ -72,12 +101,10 @@ $(".start-btn").on("click", function() {
   timerSet = true;
 
   answerArray = [];
-  computerOption =
-    spaceJamWords[Math.floor(Math.random() * spaceJamWords.length)];
   guessesSoFar = [];
   correctGuesses = [];
   guessesLeft = 9;
-  seconds = 6000;
+  seconds = 6;
 
   $("#startscreen").addClass("hide");
   $("#mainBox").removeClass("hide");
@@ -97,7 +124,11 @@ $("#playagain").on("click", function() {
 
 function playGame(ev) {
   var userGuess = ev.key;
-  // alert(userGuess);
+
+  if (!letters.includes(userGuess)) {
+    return false;
+  }
+
   if (
     computerOption.indexOf(userGuess) != -1 &&
     guessesSoFar.indexOf(userGuess) == -1
@@ -161,10 +192,12 @@ function display() {
   return disp;
 }
 
-//make an array called letters and check if what key they pressed is inside letters.
-// $("#wordToGuess").push(element);
+//create a function to check all the letters you selected are in the computer's answers.
+// everytime you press a key you check if the user's answers have all the letters in the
+// computer's answers
 
-//if(ev.keyCode >=97 && ev.keyCode <=122) {
-//     $('#letters-guessed').append(userGuess + ", ");
-// }else{
-//     alert("Please enter a letter");
+//if you match the correct word then end the game and seconds left x 1000 for the score
+
+//if you lose then use a designated loser gif
+
+//make the gifs rated g

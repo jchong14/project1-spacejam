@@ -73,6 +73,7 @@ body {
 
 #playagain {
   margin: auto;
+  display: block;
 }
 
 .start-btn {
