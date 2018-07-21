@@ -49,8 +49,8 @@ var letters = [
 var timerSet;
 var userWord;
 var answerArray = [];
-var computerOption =
-  spaceJamWords[Math.floor(Math.random() * spaceJamWords.length)];
+var computerOption;
+// spaceJamWords[Math.floor(Math.random() * spaceJamWords.length)];
 
 var guessesSoFar = [];
 var correctGuesses = [];
@@ -60,20 +60,25 @@ var seconds = 6000;
 $("#timer").text(seconds);
 
 // console.log(computerOption)
-for (var i = 0; i < computerOption.length; i++) {
-  //answerArray[i] = "_";
-  if (computerOption[i] == " ") {
-    answerArray.push("  ");
-  } else {
-    answerArray.push("_");
+function generateUnderscore() {
+  computerOption =
+    spaceJamWords[Math.floor(Math.random() * spaceJamWords.length)];
+  for (var i = 0; i < computerOption.length; i++) {
+    //answerArray[i] = "_";
+    if (computerOption[i] == " ") {
+      answerArray.push("  ");
+    } else {
+      answerArray.push("_");
+    }
+    $("#wordToGuess").text(answerArray.join(" "));
+
+    // console.log(computerOption);
+    // console.log(answerArray);
+    //push same underscores into a different array
   }
-  // console.log(computerOption);
-  // console.log(answerArray);
-  //push same underscores into a different array
 }
 
 $("#yourguesses").text(guessesSoFar);
-$("#wordToGuess").text(answerArray.join(" "));
 $("#guessesleft").text(guessesLeft);
 $("#correctguesses").text(correctGuesses);
 
@@ -102,22 +107,29 @@ $(".start-btn").on("click", function() {
 
   timer = setInterval(startTimer, 1000);
   timerSet = true;
-
+  $("#startscreen").addClass("hide");
+  $("#mainBox").removeClass("hide");
+  $("#timer").removeClass("hide");
+  $("#start-btn").addClass("hide");
+  $("#wordToGuess").empty();
+  $("#correctguesses").empty();
+  $("#yourguesses").empty();
+  $("#guessesleft").text("9");
+  generateUnderscore();
   answerArray = [];
   guessesSoFar = [];
   correctGuesses = [];
   guessesLeft = 9;
   seconds = 6000;
-
-  $("#startscreen").addClass("hide");
-  $("#mainBox").removeClass("hide");
-  $("#timer").removeClass("hide");
-  $("#start-btn").addClass("hide");
 });
 
 $("#playagain").on("click", function() {
   guessesLeft = 9;
   seconds = 6000;
+  answerArray = [];
+  guessesSoFar = [];
+  correctGuesses = [];
+  guessesLeft = 9;
   $("#playagain").addClass("hidden");
   $("#highScore").addClass("hide");
   $("#startscreen").removeClass("hide");
