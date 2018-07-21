@@ -1,7 +1,20 @@
 body {
   background-size: 100%;
 }
-
+#player-name-screen {
+  width: 200px;
+  margin: auto;
+  background-color: orange;
+  opacity: 0.75;
+  padding-bottom: 8px;
+  margin-bottom: 7px;
+  font-family: "Wendy One", sans-serif;
+  padding-left: 25px;
+  border-color: yellowgreen;
+  border-width: 10px;
+  border-style: ridge;
+  font-size: 14px;
+}
 #startscreen {
   background-color: orange;
   width: 350px;
@@ -62,6 +75,7 @@ body {
   border-color: yellowgreen;
   border-width: 10px;
   border-style: ridge;
+  overflow: scroll;
 }
 
 #gifs-appear-here {

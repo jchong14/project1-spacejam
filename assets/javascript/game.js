@@ -104,7 +104,7 @@ function startTimer() {
   $("#timer").text(seconds);
 
   //this if statement is for when the player loses
-  if (seconds === 0 || guessesLeft === 0 || win == true) {
+  if (seconds === 0 || guessesLeft === 0) {
     $("#mainBox").addClass("hide");
     $("#gifs-appear-here img")
       .css("border", "0px solid red")
@@ -122,7 +122,7 @@ function startTimer() {
 $(document).on("click", "#submit-name", function() {
   event.preventDefault();
   var playerName = $("input").val();
-  var playerScore = seconds;
+  var playerScore = seconds * 1000;
 
   database.ref("highscores").push({
     name: playerName,
@@ -190,12 +190,12 @@ $("#playagain").on("click", function() {
   guessesSoFar = [];
   correctGuesses = [];
   guessesLeft = 9;
+  $("#player-name-screen").hide();
   $("#playagain").addClass("hidden");
   $("#highScore").addClass("hide");
   $("#startscreen").removeClass("hide");
   $("#timer").addClass("hide");
   $("#start-btn").removeClass("hide");
-  $("#player-name-screen").addClass("hide");
   $("#gifs-appear-here").empty();
 });
 
@@ -230,11 +230,12 @@ function playGame(ev) {
   dis = dis.replace(" _ ", " ");
   if (dis == computerOption) {
     var newScore = $("<p>");
+    clearInterval(timer);
     $("#highScore").removeClass("hide");
     $("#score").removeClass("hide");
     $("#playagain").removeClass("hidden");
     $("#mainBox").addClass("hide");
-    $("#player-name-screen").removeClass("hide");
+    $("#player-name-screen").show();
     $("#gifs-appear-here img")
       .css("border", "0px solid green")
       .animate({
