@@ -1,3 +1,20 @@
+var win = false;
+var config = {
+  apiKey: "AIzaSyD4FG-NuiYPiAxtrzVXj_9tjq_qZVSzz6Y",
+  authDomain: "hangman-group-project.firebaseapp.com",
+  databaseURL: "https://hangman-group-project.firebaseio.com",
+  projectId: "hangman-group-project",
+  storageBucket: "hangman-group-project.appspot.com",
+  messagingSenderId: "358789680287"
+};
+
+firebase.initializeApp(config);
+
+// Create a variable to reference the database.
+var database = firebase.database();
+
+var leaders = [];
+
 var spaceJamWords = [
   "bugs bunny",
   "basketball",
@@ -55,7 +72,7 @@ var computerOption;
 var guessesSoFar = [];
 var correctGuesses = [];
 var guessesLeft = 9;
-var seconds = 6000;
+var seconds = 60;
 
 $("#timer").text(seconds);
 
@@ -87,7 +104,7 @@ function startTimer() {
   $("#timer").text(seconds);
 
   //this if statement is for when the player loses
-  if (seconds === 0 || guessesLeft === 0) {
+  if (seconds === 0 || guessesLeft === 0 || win == true) {
     $("#mainBox").addClass("hide");
     $("#gifs-appear-here img")
       .css("border", "0px solid red")
@@ -99,8 +116,41 @@ function startTimer() {
     $("#highScore").removeClass("hide");
     $("#score").removeClass("hide");
     $("#playagain").removeClass("hidden");
+    $("#player-name-screen").removeClass("hide");
   }
 }
+
+database
+  .ref("highscores")
+  .orderByChild("score")
+  .on("child_added", function(childSnapshot) {
+    var score = childSnapshot.val().score;
+    var name = childSnapshot.val().name;
+
+    if ((score + "").length == 1) {
+      score = "0" + score;
+    }
+
+    leaders.push(score + "|" + name);
+    // ["04|jason"]
+
+    $("#highScore").empty();
+
+    leaders.sort();
+
+    $.each(leaders, function(index, value) {
+      var scoreAndName = value.split("|");
+      //[4, "jason"]
+      var score = scoreAndName[0];
+      var name = scoreAndName[1];
+
+      var p = $("<p>");
+      var str = name + ": ";
+      str += score;
+      p.text(str);
+      $("#highScore").prepend(p);
+    });
+  });
 
 $(".start-btn").on("click", function() {
   if (timerSet) clearInterval(timer);
@@ -120,12 +170,12 @@ $(".start-btn").on("click", function() {
   guessesSoFar = [];
   correctGuesses = [];
   guessesLeft = 9;
-  seconds = 6000;
+  seconds = 60;
 });
 
 $("#playagain").on("click", function() {
   guessesLeft = 9;
-  seconds = 6000;
+  seconds = 60;
   answerArray = [];
   guessesSoFar = [];
   correctGuesses = [];
@@ -135,6 +185,7 @@ $("#playagain").on("click", function() {
   $("#startscreen").removeClass("hide");
   $("#timer").addClass("hide");
   $("#start-btn").removeClass("hide");
+  $("#player-name-screen").addClass("hide");
   $("#gifs-appear-here").empty();
 });
 
@@ -168,15 +219,17 @@ function playGame(ev) {
   var dis = display();
   dis = dis.replace(" _ ", " ");
   if (dis == computerOption) {
+    var newScore = $("<p>");
     $("#highScore").removeClass("hide");
     $("#score").removeClass("hide");
     $("#playagain").removeClass("hidden");
     $("#mainBox").addClass("hide");
+    $("#player-name-screen").removeClass("hide");
     $("#gifs-appear-here img")
       .css("border", "0px solid green")
       .animate({
-        borderWidth: "15px",
-        borderColor: "#f37736"
+        borderWidth: "10px",
+        borderColor: "green"
       });
   }
 
