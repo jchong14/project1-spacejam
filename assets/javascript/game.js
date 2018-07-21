@@ -112,14 +112,24 @@ function startTimer() {
         borderWidth: "10px",
         borderColor: "#f37736"
       });
-    // clearInterval(timer);
+    clearInterval(timer);
     $("#highScore").removeClass("hide");
     $("#score").removeClass("hide");
     $("#playagain").removeClass("hidden");
-    $("#player-name-screen").removeClass("hide");
+    // $("#player-name-screen").removeClass("hide");
   }
 }
+$(document).on("click", "#submit-name", function() {
+  event.preventDefault();
+  var playerName = $("input").val();
+  var playerScore = seconds;
 
+  database.ref("highscores").push({
+    name: playerName,
+    score: playerScore
+  });
+  $("#player-name-screen").addClass("hide");
+});
 database
   .ref("highscores")
   .orderByChild("score")
