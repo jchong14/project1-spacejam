@@ -3,7 +3,7 @@ var spaceJamWords = [
   "basketball",
   "michael jordan",
   "looney toons",
-  "monstars",
+  "monstarz",
   "daffy duck",
   "slam dunk",
   "tune squad",
@@ -47,13 +47,15 @@ var letters = [
   "z"
 ];
 var timerSet;
+var userWord;
 var answerArray = [];
 var computerOption =
   spaceJamWords[Math.floor(Math.random() * spaceJamWords.length)];
+
 var guessesSoFar = [];
 var correctGuesses = [];
 var guessesLeft = 9;
-var seconds = 6;
+var seconds = 6000;
 
 $("#timer").text(seconds);
 
@@ -67,6 +69,7 @@ for (var i = 0; i < computerOption.length; i++) {
   }
   // console.log(computerOption);
   // console.log(answerArray);
+  //push same underscores into a different array
 }
 
 $("#yourguesses").text(guessesSoFar);
@@ -89,8 +92,8 @@ function startTimer() {
       });
     // clearInterval(timer);
     $("#highScore").removeClass("hide");
-    $("#playagain").removeClass("hide");
     $("#score").removeClass("hide");
+    $("#playagain").removeClass("hidden");
   }
 }
 
@@ -104,19 +107,20 @@ $(".start-btn").on("click", function() {
   guessesSoFar = [];
   correctGuesses = [];
   guessesLeft = 9;
-  seconds = 6;
+  seconds = 6000;
 
   $("#startscreen").addClass("hide");
   $("#mainBox").removeClass("hide");
   $("#timer").removeClass("hide");
   $("#start-btn").addClass("hide");
-  $("#playagain").addClass("hide");
 });
 
 $("#playagain").on("click", function() {
-  $("#startscreen").removeClass("hide");
-  $("#playagain").addClass("hide");
+  guessesLeft = 9;
+  seconds = 6000;
+  $("#playagain").addClass("hidden");
   $("#highScore").addClass("hide");
+  $("#startscreen").removeClass("hide");
   $("#timer").addClass("hide");
   $("#start-btn").removeClass("hide");
   $("#gifs-appear-here").empty();
@@ -128,6 +132,17 @@ function playGame(ev) {
   if (!letters.includes(userGuess)) {
     return false;
   }
+  // userWord = correctGuesses.join("").toString();
+  //
+  // if (userWord == computerOption) {
+  //   console.log("hi");
+  // }
+  // if (computerOption == correctGuesses) {
+  //   alert("hi");
+  // }
+  // check all the letters you selected are in the computer's answers.
+  // everytime you press a key you check if the user's answers have all the letters in the
+  // computer's answers
 
   if (
     computerOption.indexOf(userGuess) != -1 &&
@@ -192,12 +207,4 @@ function display() {
   return disp;
 }
 
-//create a function to check all the letters you selected are in the computer's answers.
-// everytime you press a key you check if the user's answers have all the letters in the
-// computer's answers
-
 //if you match the correct word then end the game and seconds left x 1000 for the score
-
-//if you lose then use a designated loser gif
-
-//make the gifs rated g
