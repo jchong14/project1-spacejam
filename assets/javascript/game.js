@@ -144,18 +144,6 @@ function playGame(ev) {
   if (!letters.includes(userGuess)) {
     return false;
   }
-  // userWord = correctGuesses.join("").toString();
-  //
-  // if (userWord == computerOption) {
-  //   console.log("hi");
-  // }
-  // if (computerOption == correctGuesses) {
-  //   alert("hi");
-  // }
-  // check all the letters you selected are in the computer's answers.
-  // everytime you press a key you check if the user's answers have all the letters in the
-  // computer's answers
-
   if (
     computerOption.indexOf(userGuess) != -1 &&
     guessesSoFar.indexOf(userGuess) == -1
@@ -175,6 +163,21 @@ function playGame(ev) {
     guessesLeft--;
     $("#yourguesses").text(guessesSoFar);
     $("#guessesleft").text(guessesLeft);
+  }
+
+  var dis = display();
+  dis = dis.replace(" _ ", " ");
+  if (dis == computerOption) {
+    $("#highScore").removeClass("hide");
+    $("#score").removeClass("hide");
+    $("#playagain").removeClass("hidden");
+    $("#mainBox").addClass("hide");
+    $("#gifs-appear-here img")
+      .css("border", "0px solid green")
+      .animate({
+        borderWidth: "15px",
+        borderColor: "#f37736"
+      });
   }
 
   var winGif = dis;
@@ -219,4 +222,5 @@ function display() {
   return disp;
 }
 
+//call the display fuction and replace the the underscore with a space
 //if you match the correct word then end the game and seconds left x 1000 for the score
