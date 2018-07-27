@@ -173,6 +173,7 @@ $(".start-btn").on("click", function() {
   $("#start-btn").addClass("hide");
   $("#wordToGuess").empty();
   $("#correctguesses").empty();
+  $("#checkHighScore").hide();
   $("#yourguesses").empty();
   $("#guessesleft").text("9");
   generateUnderscore();
@@ -196,6 +197,7 @@ $("#playagain").on("click", function() {
   $("#startscreen").removeClass("hide");
   $("#timer").addClass("hide");
   $("#start-btn").removeClass("hide");
+  $("#checkHighScore").show();
   $("#gifs-appear-here").empty();
 });
 
@@ -259,6 +261,7 @@ function playGame(ev) {
   }).then(function(response) {
     console.log(response);
     console.log(response.data[0].images.fixed_height.url);
+
     var gifDiv = $("<div class= 'item'>");
     var gifImage = $("<img>");
 
@@ -285,6 +288,19 @@ function display() {
 
   return disp;
 }
+$("#checkHighScore").on("click", function() {
+  $("#highScore").show();
+  $("#startscreen").hide();
+  $("#checkHighScore").hide();
+  $("#goBack").removeClass("hide");
+});
+
+$("#goBack").on("click", function() {
+  $("#highScore").hide();
+  $("#startscreen").show();
+  $("#checkHighScore").show();
+  $("#goBack").addClass("hide");
+});
 
 //call the display fuction and replace the the underscore with a space
 //if you match the correct word then end the game and seconds left x 1000 for the score
